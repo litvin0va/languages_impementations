@@ -23,7 +23,7 @@ procedure main is
                  res : in out Integer) return float is
     tmp1, tmp2, masheps : float;
   begin
-    masheps := 0.55;
+    masheps := 0.000000000000001;
     tmp1 := -y1 * x2 + y2 * x1;
     if (abs (x1 - x2) < masheps) then
         res := 0;
