@@ -1,4 +1,4 @@
--- The program for finding the root of the equation x (x) = 0
+-- The program for finding the root of the equation f (x) = 0
 -- in a given interval ab with an accuracy of eps by
 -- the method of quadratic interpolation.
 -- If successful, the function displays the root and

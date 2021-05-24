@@ -1,4 +1,4 @@
--- The program for finding the root of the equation x (x) := 0
+-- The program for finding the root of the equation f (x) := 0
 -- in a given interval ab with an accuracy of eps by
 -- the method of quadratic interpolation.
 -- If successful, the function displays the root and
@@ -11,7 +11,9 @@
 with Ada.Text_IO, Ada.Integer_Text_IO, Ada.float_Text_IO;
 use Ada.Text_IO, Ada.Integer_Text_IO, Ada.float_Text_IO;
 with Ada.Float_Text_IO; use Ada.Float_Text_IO;
-
+with Ada.Numerics; use Ada.Numerics;
+with Ada.Numerics.Elementary_Functions;
+use  Ada.Numerics.Elementary_Functions;
 procedure main is
 
   function f (x : float) return float is

@@ -1,12 +1,12 @@
 /*
- * The program for finding the root of the equation x (x) = 0
+ * The program for finding the root of the equation f (x) = 0
  * in a given interval ab with an accuracy of eps by
  * the method of quadratic interpolation.
  * If successful, the function displays the root and
  * the number of iterations spent looking for it.
  * Otherwise the error code.
  *
- * Compile : gcc main.c - lm
+ * Compile : gcc main.c -lm
  * Run: ./a.out
  */
 
@@ -14,7 +14,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdbool.h>
-
 #define MAXIT 12345
 #define E 1e-10
 
