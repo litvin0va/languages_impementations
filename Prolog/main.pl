@@ -22,7 +22,7 @@ inter(X1, X2, X3, Y1, Y2, Y3, RES, RET) :-
   ;
   Y12 is Y11 / DIF12,
   Y21 is Y3 * X2 - Y2 * X3,
-  DIF23 is X3 - X2,
+  DIF23 is X2 - X3,
   (abs(DIF23) < E ->
   RES is 0,
   RET is 0
@@ -40,50 +40,12 @@ inter(X1, X2, X3, Y1, Y2, Y3, RES, RET) :-
   )
   ).
 
-seq(From,_,From).
-seq(From,To,X) :-
-  From < To,
-  Next is From + 1,
-  seq(Next, To, X).
-
-
-set_new(A1, A2, A3, ID, VAL, A1_NEW, A2_NEW, A3_NEW) :-
-  (ID = 0 ->
-  A1_NEW is A1,
-  A2_NEW is A2,
-  A3_NEW is A3
+loop(IT, X1, X2, X3, Y1, Y2, Y3, EPS) :-
+  CUR_IT is IT + 1,
+  (CUR_IT > 1234 ->
+  write('MAXIT error'), nl,
+  halt
   ;
-  (ID = 1 ->
-  A1_NEW is VAL,
-  A2_NEW is A2,
-  A3_NEW is A3
-  ;
-  (ID = 2 ->
-  A1_NEW is A1,
-  A2_NEW is VAL,
-  A3_NEW is A3
-  ;
-  (ID = 3 ->
-  A1_NEW is A1,
-  A2_NEW is A2,
-  A3_NEW is VAL
-  ;
-  fail
-  )
-  )
-  )
-  ).
-
-loop(MAXIT, X1, X2, X3, Y1, Y2, Y3, EPS) :-
-  seq(1, MAXIT, IT),
-  do_something(IT, X1, X2, X3, Y1, Y2, Y3, EPS, XN, YN),
-  index_to_set(Y1, Y2, Y3, YN, ID),
-  write('ID: '), write(ID), nl,
-  halt,
-  fail.
-loop.
-
-do_something(IT, X1, X2, X3, Y1, Y2, Y3, EPS, XN, YN) :-
   inter(Y1, Y2, Y3, X1, X2, X3, RES, RET),
   XN is RES,
   f(XN, YN),
@@ -94,10 +56,28 @@ do_something(IT, X1, X2, X3, Y1, Y2, Y3, EPS, XN, YN) :-
   write('Ans:'),
   write(RES), nl,
   write('It:'),
-  write(IT), nl,
+  write(CUR_IT), nl,
   halt
   ;
-  true
+  index_to_set(Y1, Y2, Y3, YN, ID),
+  (ID = 0 ->
+  loop(CUR_IT + 1, X1, X2, X3, Y1, Y2, Y3, EPS)
+  ;
+  (ID = 1 ->
+  loop(CUR_IT + 1, XN, X2, X3, YN, Y2, Y3, EPS)
+  ;
+  (ID = 2 ->
+  loop(CUR_IT + 1, X1, XN, X3, Y1, YN, Y3, EPS)
+  ;
+  (ID = 3 ->
+  loop(CUR_IT + 1, X1, X2, XN, Y1, Y2, YN, EPS)
+  ;
+  fail
+  )
+  )
+  )
+  )
+  )
   )
   ).
 
@@ -134,7 +114,6 @@ index_to_set(Y1, Y2, Y3, YN, ID) :-
   )
   ).
 
-
 solve(A, B, EPS, X) :-
   X1 is A,
   X2 is B,
@@ -151,8 +130,7 @@ solve(A, B, EPS, X) :-
   (abs(Y3) < EPS ->
   X is X3
   ;
-  MAXIT is 12345,
-  loop(MAXIT, X1, X2, X3, Y1, Y2, Y3, EPS),
+  loop(0, X1, X2, X3, Y1, Y2, Y3, EPS),
   X is 42
   )
   )
